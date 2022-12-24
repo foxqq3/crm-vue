@@ -1,0 +1,32 @@
+//font-size
+@mixin font-size-half($value) {
+  $value: map-get($font-size, $value);
+  font-size: $value;
+  line-height: 1.5em;
+}
+
+@mixin font-size-quarter($value) {
+  $value: map-get($font-size, $value);
+  font-size: $value;
+  line-height: 1.25em;
+}
+
+//text ellipsis
+@mixin text-ellipsis($maxWidth: 100%) {
+  max-width: $maxWidth;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+//breakpoint
+@mixin breakpoint($name) {
+  @if map-has-key($breakpoint-default, $name) {
+    @media (min-width: map-get($breakpoint-default, $name)) {
+      @content;
+    }
+  } @else {
+    @error 'Unable to find a breakpoint with name `#{$name}`. Expected one of: (#{map-keys($breakpoints)})';
+  }
+}
