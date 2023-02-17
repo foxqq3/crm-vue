@@ -5,13 +5,18 @@
 
 <template>
   <div class="content">
-    <h1>testdsadsadsadsa</h1>
+    <p>first slot
+      <slot></slot>
+    </p>
+    <p>second slot
+      <slot></slot>
+    </p>
   </div>
   
 
   <!-- <HelloWorld msg="Vite + Vue" /> -->
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 </style>

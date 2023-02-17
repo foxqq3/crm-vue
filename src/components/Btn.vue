@@ -1,3 +1,19 @@
+<script>
+export default {
+  props: {
+    title:{
+      type: String,
+      default: 'btn'
+    }
+  }
+}
+</script>
+
+<template>
+  <button class="btn">{{ title }}</button>
+</template>
+
+<style scoped lang="scss">
 .btn {
   @include text-ellipsis();
   @include font-size-quarter('small');
@@ -35,3 +51,4 @@
     background-color: color('wild-sand');
   }
 }
+</style>

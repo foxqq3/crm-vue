@@ -1,13 +1,3 @@
-body {
-  // margin: 0;
-  // padding: 0;
-  @include font-size-half('medium');
-  font-family: map-get($font-family, 'main');
-  font-weight: f-weight('regular');
-  // color: map-get($colors, "boulder");
-  // background-color: map-get($colors , "white");
-}
-
 *,
 *:before,
 *:after {
@@ -19,6 +9,7 @@ body {
 ul li,
 menu li {
   list-style: none;
+  
 }
 
 a {

@@ -1,17 +1,11 @@
-<script setup>
-// import HelloWorld from './components/HelloWorld.vue'
+<script>
 
 </script>
 
 <template>
-  <div class="content">
-    <h1>testdsadsadsadsa</h1>
-  </div>
-  
-
-  <!-- <HelloWorld msg="Vite + Vue" /> -->
+  <div class="">dsad</div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 </style>
