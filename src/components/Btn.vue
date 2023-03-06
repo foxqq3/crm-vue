@@ -1,19 +1,35 @@
 <script>
 export default {
+  name: 'Btn',
+
   props: {
-    title:{
+    title: {
       type: String,
       default: 'btn'
+    },
+  },
+
+  methods: {
+
+  },
+
+  emits: ['click'],
+
+  computed: {
+    classes() {
+      return{
+        [this.$style.btn]: true
+      }
     }
   }
 }
 </script>
 
 <template>
-  <button class="btn">{{ title }}</button>
+  <button :class="classes" @click="$emit('click')">{{ title }}</button>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" module>
 .btn {
   @include text-ellipsis();
   @include font-size-quarter('small');
