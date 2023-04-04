@@ -1,68 +1,81 @@
 <script>
 export default {
-  name: 'AppInput',
+  name: "AppInput",
+  data() {
+    return {
+      test: false,
+    };
+  },
   props: {
     placeholder: {
       type: String,
-      default: 'Start typing...'
+      default: "Start typing...",
     },
     label: {
       type: String,
-      default: ''
+      default: "",
     },
     error: {
       type: String,
-      default: null
+      default: null,
     },
     modelValue: {
       type: String,
-      default: null
+      default: null,
     },
     type: {
       type: String,
-      default: 'text'
+      default: "text",
     },
     required: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    autocomplete: {
+      type: Boolean,
+      default: false,
     },
     minLength: {
       type: Number,
-      default: null
+      default: null,
     },
     maxLength: {
       type: Number,
-      default: null
+      default: null,
     },
     idFor: {
       type: String,
-      default: ''
+      default: "",
     },
     statInput: {
       type: String,
-      default: 'default',
+      default: "default",
       validator(value) {
-        return ['success', 'error', 'active', 'disabled'].includes(value)
-      }
-    }
+        return ["success", "error", "active", "default"].includes(
+          value
+        );
+      },
+    },
   },
+
+  computed: {},
 
   methods: {
     inputEventHandler(event) {
-      this.$emit('update:modelValue', event.target.value);
+      this.$emit("update:modelValue", event.target.value);
+    },
+
+    focusEventHandler(event) {
+      this.test = true;
+    },
+
+    invalidEventHandler(event){
+      console.log(event)
     }
   },
 
-  emits: ['update:modelValue'],
-
-  computed: {
-    inputStyle(){
-
-    }
-  },
-
-
-}
+  emits: ["update:modelValue", "focus"],
+};
 </script>
 
 <template>
@@ -70,12 +83,32 @@ export default {
     <label :for="idFor" :class="$style.label">
       {{ label }}
     </label>
-    <div :class="{ [$style['input-container']]: statInput }">
+    <div
+      :class="[
+        [$style['input-container']],
+        {
+          [$style['input-container_active']]: test === true,
+        },
+      ]"
+    >
       <div :class="$style['append-slot']">
         <slot name="append"></slot>
       </div>
-      <input :class="$style.input" :id="idFor" :placeholder="placeholder" :type="type" :value="modelValue"
-        :required="required" :minlength="minLength" :maxlength="maxLength" @input="inputEventHandler">
+      <input
+        :class="$style.input"
+        @invalid="invalidEventHandler"
+        @focus="focusEventHandler"
+        @blur="blurEventHandler"
+        @input="inputEventHandler"
+        :autocomplete="autocomplete"
+        :id="idFor"
+        :placeholder="placeholder"
+        :type="type"
+        :value="modelValue"
+        :required="required"
+        :minlength="minLength"
+        :maxlength="maxLength"
+      />
       <div :class="$style['prepend-slot']">
         <slot name="prepend"></slot>
       </div>
@@ -92,27 +125,30 @@ export default {
 }
 
 .label {
-  color: color('waterloo');
+  color: color("waterloo");
 }
 
 .input-container {
-  color: yellow;
+  color: green;
 
   &_active {
     color: plum;
   }
 
-  &_error {
+  &_invalid {
     color: fuchsia;
   }
-
 }
 
-.append-slot {}
+.append-slot {
+}
 
-.input {}
+.input {
+}
 
-.prepend-slot {}
+.prepend-slot {
+}
 
-.error {}
+.error {
+}
 </style>
