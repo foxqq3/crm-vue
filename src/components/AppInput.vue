@@ -3,7 +3,11 @@ export default {
   name: "AppInput",
   data() {
     return {
-      test: false,
+      inputValidStatus: false,
+      active: false,
+      invalid: false,
+      disable: false,
+      success: false,
     };
   },
   props: {
@@ -16,10 +20,6 @@ export default {
       default: "",
     },
     error: {
-      type: String,
-      default: null,
-    },
-    modelValue: {
       type: String,
       default: null,
     },
@@ -47,14 +47,13 @@ export default {
       type: String,
       default: "",
     },
-    statInput: {
+    checkSuccess: {
+      type: Boolean,
+      default: false,
+    },
+    change: {
       type: String,
-      default: "default",
-      validator(value) {
-        return ["success", "error", "active", "default"].includes(
-          value
-        );
-      },
+      default: null,
     },
   },
 
@@ -62,19 +61,29 @@ export default {
 
   methods: {
     inputEventHandler(event) {
-      this.$emit("update:modelValue", event.target.value);
+      this.$emit("update:change", event.target.value);
+      this.inputValidStatus = event.target.validity.valid;
+      this.normal === true ? (this.normal = false) : "";
+      this.invalid === true ? (this.invalid = false) : "";
+      this.success === true ? (this.success = false) : "";
+      this.active = event.target.value === "" ? false : true;
     },
 
-    focusEventHandler(event) {
-      this.test = true;
-    },
+    focusEventHandler() {},
 
-    invalidEventHandler(event){
-      console.log(event)
-    }
+    blurEventHandler(event) {},
   },
 
-  emits: ["update:modelValue", "focus"],
+  watch: {
+    checkSuccess() {
+      this.active = false;
+      this.inputValidStatus === true
+        ? (this.success = true)
+        : (this.invalid = true);
+    },
+  },
+
+  emits: ["update:change", "focus"],
 };
 </script>
 
@@ -87,7 +96,10 @@ export default {
       :class="[
         [$style['input-container']],
         {
-          [$style['input-container_active']]: test === true,
+          [$style.active]: active === true,
+          [$style.disable]: disable === true,
+          [$style.success]: success === true,
+          [$style.invalid]: invalid === true,
         },
       ]"
     >
@@ -96,15 +108,15 @@ export default {
       </div>
       <input
         :class="$style.input"
-        @invalid="invalidEventHandler"
         @focus="focusEventHandler"
         @blur="blurEventHandler"
         @input="inputEventHandler"
+        @submit="validEventHandler"
         :autocomplete="autocomplete"
         :id="idFor"
         :placeholder="placeholder"
         :type="type"
-        :value="modelValue"
+        :value="change"
         :required="required"
         :minlength="minLength"
         :maxlength="maxLength"
@@ -113,42 +125,64 @@ export default {
         <slot name="prepend"></slot>
       </div>
     </div>
-    <div v-if="error" :class="$style.error">
+    <div v-if="error">
       {{ error }}
     </div>
   </div>
 </template>
 
 <style lang="scss" module>
-.container {
-  color: blue;
-}
+// .container {
+//   // color: blue;
+// }
 
 .label {
   color: color("waterloo");
 }
-
 .input-container {
-  color: green;
-
-  &_active {
-    color: plum;
-  }
-
-  &_invalid {
-    color: fuchsia;
-  }
+  display: flex;
+  align-items: center;
+  color: color("waterloo");
+  box-sizing: border-box;
+  border-bottom: 1px solid transparent;
+}
+.active {
+  color: color("cornflower-blue");
+  border-color: color("cornflower-blue");
+}
+// .disable {
+// }
+.success {
+  color: color('magic-mint');
+  border-color: color('magic-mint');
+}
+.invalid {
+  color: color('gareldine');
+  border-color: color('gareldine');
+}
+.normal {
+  color: blue;
 }
 
-.append-slot {
-}
+// .append-slot {
+// }
 
 .input {
+  @include font-size-quarter("small");
+  width: 100%;
+  font-weight: f-weight("bold");
+  color: color("shark");
+  outline: none;
+  border: none;
+
+  &::placeholder {
+    color: color("waterloo");
+  }
 }
 
-.prepend-slot {
-}
+// .prepend-slot {
+// }
 
-.error {
-}
+// .error {
+// }
 </style>

@@ -1,11 +1,13 @@
 <script>
 
-import RegistrForm from "./components/RegistrForm.vue";
+import RegistrForm from "@/components/RegistrForm.vue";
+import Btn from "@/components/Btn.vue";
 
 export default {
   components: {
 
-    RegistrForm
+    RegistrForm,
+    Btn
   },
 
   methods: {
@@ -13,7 +15,7 @@ export default {
 
   },
 
-  
+
 
   methods: {
 
@@ -27,6 +29,8 @@ export default {
   <RegistrForm>
 
   </RegistrForm>
+
+<Btn ></Btn>
 </template>
 
 <style lang="scss"></style>

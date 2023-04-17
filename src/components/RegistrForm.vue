@@ -1,7 +1,7 @@
 <script>
-import AppInput from "./AppInput.vue";
-import Btn from "./Btn.vue";
-import CheckBox from "./CheckBox.vue";
+import AppInput from "@/components/AppInput.vue";
+import Btn from "@/components/Btn.vue";
+import CheckBox from "@/components/CheckBox.vue";
 
 export default {
   name: "RegistrForm",
@@ -15,31 +15,35 @@ export default {
       inputEmail: "",
       inputPassword: "",
       inputText: "",
+      checkSuccess: false,
     };
   },
 
   methods: {
     sendForm(event) {
+      console.log("сабмит");
       event.preventDefault();
       alert(
         `Введенная почта:${this.inputEmail} \nВведенный пароль:${this.inputPassword} \nВведенное имя:${this.inputText} `
       );
     },
-
+    check() {
+      this.checkSuccess = !this.checkSuccess;
+    },
   },
 };
 </script>
 
 <template>
-  <form @submit="sendForm">
+  <form @submit="sendForm" :class="$style['form-container']">
     <AppInput
-      statInput="active"
       label="Full name"
-      v-model="inputText"
+      v-model:change="inputText"
       required
       :minLength="6"
       :maxLength="60"
       idFor="name"
+      :checkSuccess="checkSuccess"
     >
       <template v-slot:prepend>
         <svg
@@ -57,13 +61,14 @@ export default {
       </template>
     </AppInput>
     <AppInput
-      label="1"
-      v-model="inputEmail"
+      label="Email"
+      v-model:change="inputEmail"
       type="email"
       required
       :minLength="6"
       :maxLength="40"
       idFor="email"
+      :checkSuccess="checkSuccess"
     >
       <template v-slot:prepend>
         <svg
@@ -81,13 +86,14 @@ export default {
       </template>
     </AppInput>
     <AppInput
-      label="2"
-      v-model="inputPassword"
+      label="Password"
+      v-model:change="inputPassword"
       type="password"
       required
       :minLength="6"
       :maxLength="20"
       idFor="password"
+      :checkSuccess="checkSuccess"
     >
       <template v-slot:prepend>
         <svg
@@ -105,10 +111,19 @@ export default {
       </template>
     </AppInput>
     <div class="btns-container">
-      <Btn title="Sign up" type="submit"></Btn>
+      <Btn title="Sign up" type="submit" @click="check"></Btn>
       <Btn title="Sign in" type="button"></Btn>
     </div>
   </form>
 </template>
 
-<style lang="scss" module></style>
+<style lang="scss" module>
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 15px;
+  padding: 15px;
+  border: 1px solid black;
+}
+</style>

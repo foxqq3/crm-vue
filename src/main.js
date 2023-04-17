@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import './assets/style/body-set.scss';
+import '@/assets/style/body-set.scss';
 
 const app = createApp(App);
 //global components (create individual place?)
