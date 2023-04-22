@@ -12,23 +12,27 @@ export default {
   },
   data() {
     return {
-      inputEmail: "",
-      inputPassword: "",
-      inputText: "",
-      checkSuccess: false,
+      inputValue: {
+        name: "",
+        email: "",
+        password: "",
+      },
+      validWatch: false,
     };
   },
+  computed: {},
+
+  watch: {},
 
   methods: {
     sendForm(event) {
-      console.log("сабмит");
       event.preventDefault();
       alert(
-        `Введенная почта:${this.inputEmail} \nВведенный пароль:${this.inputPassword} \nВведенное имя:${this.inputText} `
+        `Введенная почта:${this.inputValue.email} \nВведенный пароль:${this.inputValue.password} \nВведенное имя:${this.inputValue.name} `
       );
     },
-    check() {
-      this.checkSuccess = !this.checkSuccess;
+    checkValid() {
+      this.validWatch = !this.validWatch;
     },
   },
 };
@@ -38,12 +42,12 @@ export default {
   <form @submit="sendForm" :class="$style['form-container']">
     <AppInput
       label="Full name"
-      v-model:change="inputText"
+      v-model:change="inputValue.name"
+      :checkValid="validWatch"
       required
       :minLength="6"
       :maxLength="60"
       idFor="name"
-      :checkSuccess="checkSuccess"
     >
       <template v-slot:prepend>
         <svg
@@ -62,13 +66,13 @@ export default {
     </AppInput>
     <AppInput
       label="Email"
-      v-model:change="inputEmail"
+      v-model:change="inputValue.email"
+      :checkValid="validWatch"
       type="email"
       required
       :minLength="6"
       :maxLength="40"
       idFor="email"
-      :checkSuccess="checkSuccess"
     >
       <template v-slot:prepend>
         <svg
@@ -87,13 +91,13 @@ export default {
     </AppInput>
     <AppInput
       label="Password"
-      v-model:change="inputPassword"
+      v-model:change="inputValue.password"
+      :checkValid="validWatch"
       type="password"
       required
       :minLength="6"
       :maxLength="20"
       idFor="password"
-      :checkSuccess="checkSuccess"
     >
       <template v-slot:prepend>
         <svg
@@ -111,7 +115,7 @@ export default {
       </template>
     </AppInput>
     <div class="btns-container">
-      <Btn title="Sign up" type="submit" @click="check"></Btn>
+      <Btn title="Sign up" type="submit" @click="checkValid"></Btn>
       <Btn title="Sign in" type="button"></Btn>
     </div>
   </form>

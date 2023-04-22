@@ -3,14 +3,16 @@ export default {
   name: "AppInput",
   data() {
     return {
-      inputValidStatus: false,
-      active: false,
-      invalid: false,
-      disable: false,
-      success: false,
+      state: "",
+      valid: false,
+      submitStateSave: "",
     };
   },
   props: {
+    change: {
+      type: String,
+      default: null,
+    },
     placeholder: {
       type: String,
       default: "Start typing...",
@@ -47,13 +49,9 @@ export default {
       type: String,
       default: "",
     },
-    checkSuccess: {
+    checkValid: {
       type: Boolean,
       default: false,
-    },
-    change: {
-      type: String,
-      default: null,
     },
   },
 
@@ -62,28 +60,33 @@ export default {
   methods: {
     inputEventHandler(event) {
       this.$emit("update:change", event.target.value);
-      this.inputValidStatus = event.target.validity.valid;
-      this.normal === true ? (this.normal = false) : "";
-      this.invalid === true ? (this.invalid = false) : "";
-      this.success === true ? (this.success = false) : "";
-      this.active = event.target.value === "" ? false : true;
+      this.valid = event.target.validity.valid;
+      this.submitStateSave = "filled";
     },
 
-    focusEventHandler() {},
+    focusEventHandler() {
+      this.submitStateSave = this.state;
+      this.state = "active";
+    },
 
-    blurEventHandler(event) {},
+    blurEventHandler(event) {
+      console.log(event.target.value);
+      event.target.value === ""
+        ? (this.state = "")
+        : (this.state = this.submitStateSave);
+    },
   },
 
   watch: {
-    checkSuccess() {
-      this.active = false;
-      this.inputValidStatus === true
-        ? (this.success = true)
-        : (this.invalid = true);
+    checkValid() {
+      console.log(this.valid);
+      this.valid === true
+        ? (this.state = "success")
+        : (this.state = "invalid");
     },
   },
 
-  emits: ["update:change", "focus"],
+  emits: ["update:change", "update:valid"],
 };
 </script>
 
@@ -96,10 +99,11 @@ export default {
       :class="[
         [$style['input-container']],
         {
-          [$style.active]: active === true,
-          [$style.disable]: disable === true,
-          [$style.success]: success === true,
-          [$style.invalid]: invalid === true,
+          [$style.active]: state === 'active',
+          [$style.disable]: state === 'disable',
+          [$style.invalid]: state === 'invalid',
+          [$style.success]: state === 'success',
+          [$style.filled]: state === 'filled',
         },
       ]"
     >
@@ -111,12 +115,11 @@ export default {
         @focus="focusEventHandler"
         @blur="blurEventHandler"
         @input="inputEventHandler"
-        @submit="validEventHandler"
+        :value="change"
         :autocomplete="autocomplete"
         :id="idFor"
         :placeholder="placeholder"
         :type="type"
-        :value="change"
         :required="required"
         :minlength="minLength"
         :maxlength="maxLength"
@@ -147,21 +150,23 @@ export default {
   border-bottom: 1px solid transparent;
 }
 .active {
+  color: color("shark");
+  border-color: color("shark");
+}
+
+.filled {
   color: color("cornflower-blue");
   border-color: color("cornflower-blue");
 }
 // .disable {
 // }
 .success {
-  color: color('magic-mint');
-  border-color: color('magic-mint');
+  color: color("magic-mint");
+  border-color: color("magic-mint");
 }
 .invalid {
-  color: color('gareldine');
-  border-color: color('gareldine');
-}
-.normal {
-  color: blue;
+  color: color("gareldine");
+  border-color: color("gareldine");
 }
 
 // .append-slot {
@@ -179,10 +184,4 @@ export default {
     color: color("waterloo");
   }
 }
-
-// .prepend-slot {
-// }
-
-// .error {
-// }
 </style>
