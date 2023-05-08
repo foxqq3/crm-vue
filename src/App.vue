@@ -1,8 +1,8 @@
 <script>
-import Registration from "@/pages/Registration.vue";
+import RegistrationPage from "@/pages/RegistrationPage.vue";
 export default {
   components: {
-    Registration,
+    RegistrationPage,
   },
   methods: {},
 };
@@ -11,9 +11,9 @@ export default {
 <template>
   <h1>Welcome to our CRM</h1>
   <span>Enter your details to proceed further</span>
-  <Registration></Registration>
+  <RegistrationPage></RegistrationPage>
   <span>Sign with</span>
-  <ul class=""> 
+  <ul class="">
     <li class="">
       <a class="" href="https://ru.wikipedia.org/wiki/Facebook">
         <svg
