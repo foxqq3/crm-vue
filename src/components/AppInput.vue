@@ -61,7 +61,9 @@ export default {
     inputEventHandler(event) {
       this.$emit("update:change", event.target.value);
       this.valid = event.target.validity.valid;
-      this.submitStateSave = "filled";
+      event.target.value === ""
+        ? (this.submitStateSave = "")
+        : (this.submitStateSave = "filled");
     },
 
     focusEventHandler() {
@@ -69,11 +71,8 @@ export default {
       this.state = "active";
     },
 
-    blurEventHandler(event) {
-      console.log(event.target.value);
-      event.target.value === ""
-        ? (this.state = "")
-        : (this.state = this.submitStateSave);
+    blurEventHandler() {
+      this.state = this.submitStateSave;
     },
   },
 
@@ -183,5 +182,11 @@ export default {
   &::placeholder {
     color: color("waterloo");
   }
+}
+
+.prepend-slot,
+.append-slot {
+  display: flex;
+  align-items: center;
 }
 </style>

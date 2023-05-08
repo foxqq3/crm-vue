@@ -31,8 +31,9 @@ export default {
         `Введенная почта:${this.inputValue.email} \nВведенный пароль:${this.inputValue.password} \nВведенное имя:${this.inputValue.name} `
       );
     },
-    checkValid() {
+    checkValid(event) {
       this.validWatch = !this.validWatch;
+      console.log(event)
     },
   },
 };
@@ -114,7 +115,7 @@ export default {
         </svg>
       </template>
     </AppInput>
-    <div class="btns-container">
+    <div :class="$style['btns-container']">
       <Btn title="Sign up" type="submit" @click="checkValid"></Btn>
       <Btn title="Sign in" type="button"></Btn>
     </div>
@@ -125,9 +126,12 @@ export default {
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin: 15px;
-  padding: 15px;
-  border: 1px solid black;
+  gap: spacing(8);
 }
+
+.btns-container {
+  display: flex;
+  gap: spacing(3);
+}
+
 </style>

@@ -1,7 +1,12 @@
 <script>
+import RegistrForm from '@/components/RegistrForm.vue';
+
 
 export default {
   name: 'Registratioin',
+  components: {
+    RegistrForm
+  },
   props: {
 
   },
@@ -16,7 +21,7 @@ export default {
 
 <template>
   <RegistrForm>
-    
+
   </RegistrForm>
 </template>
 
